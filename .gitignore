@@ -1,5 +1,5 @@
 # compiled output
-/dist
+/build
 /node_modules
 
 # Logs
@@ -38,5 +38,5 @@ lerna-debug.log*
 .env
 .env/
 
-# Nest - Build file
-./Build
+# package
+package-lock.json
