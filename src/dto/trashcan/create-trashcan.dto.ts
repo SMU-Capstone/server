@@ -1,0 +1,1 @@
+export class CreateTrashcanDto{}'../dto/trashcan/create-trashcan.dto'

@@ -1,0 +1,13 @@
+[
+  {
+    "name": "default",
+    "type": "mysql",
+    "host": "trashcan-map.cdhjjqgo9icn.ap-northeast-2.rds.amazonaws.com",
+    "port": 3306,
+    "username": "admin",
+    "password": "lun4light",
+    "database": "",
+    "synchronize": false,
+    "entities": ["entities/*.js"]
+  }
+]
