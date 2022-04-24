@@ -1,9 +1,9 @@
-import { Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Entity, OneToMany } from "typeorm";
+import { Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn,Entity, OneToMany } from "typeorm";
 import { Cleaning } from "./Cleaning";
 
 @Entity("TRASHCAN", { schema: "mydb" })
 export class Trashcan {
-  @Column("int", { primary: true, name: "ID" })
+  @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
   @Column("int", { name: "TYPE" })
