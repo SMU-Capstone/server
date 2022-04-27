@@ -23,7 +23,6 @@ export class Application {
   @DeleteDateColumn({ type: "timestamp", name: "DELETED_AT"})
   deletedAt: Date;
 
-
   @Column("int", { name: "NOTE" })
   note: number;
 }
