@@ -15,3 +15,4 @@
 |---------|------------|-------|
 |데이터분석|컴퓨터과학과|[윤윤호](https://github.com/YUN-YUNHO)|
 |팀장|컴퓨터과학과|[정한수](https://github.com/8471919)|
+|프론트엔드|컴퓨터과학과|[김진용](https://github.com/imagine97kim)|
