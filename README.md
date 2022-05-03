@@ -17,3 +17,4 @@
 |팀장|컴퓨터과학과|[정한수](https://github.com/8471919)|
 |백엔드 프로그래밍| 컴퓨터과학과 |[최종현](https://github.com/lun4-light)|
 |프론트엔드|컴퓨터과학과|[김진용](https://github.com/imagine97kim)|
+|백엔드|식품영양학과|[김혜주](https://https://github.com/201210302)|
