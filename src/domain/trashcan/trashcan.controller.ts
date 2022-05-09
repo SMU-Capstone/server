@@ -14,17 +14,6 @@ export class TrashcanController {
   @ApiOperation({
     summary: '특정 좌표를 바탕으로 주위에 있는 쓰레기통의 정보들을 반환받는다.'
   })
-  @Get('/range')
-  async findRange(@Query('x') x: number, @Query('y') y: number): Promise<Trashcan[] | null > {
-    const trashcanData =  await this.trashcanService.findRange(x,y);
-
-    return trashcanData;
-  }
-
-  /* 특정 쓰레기통 정보 가져오기 */
-  @ApiOperation({
-    summary: 'DB에 저장된 쓰레기통 중 특정 ID를 가진 쓰레기통의 정보를 가져온다.'
-  })
   @ApiParam({
     name: 'x',
     description: '사용자의 현재 위도를 쿼리스트링으로 받는다.',
@@ -37,8 +26,19 @@ export class TrashcanController {
     example: '126.973261',
     required: true,
   })
+  @Get('/range')
+  async findRange(@Query('x') x: number, @Query('y') y: number): Promise<Trashcan[] | null> {
+    const trashcanData =  await this.trashcanService.findRange(x,y);
+
+    return trashcanData;
+  }
+
+  /* 특정 쓰레기통 정보 가져오기 */
+  @ApiOperation({
+    summary: 'DB에 저장된 쓰레기통 중 특정 ID를 가진 쓰레기통의 정보를 가져온다.'
+  })
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Trashcan> {
+  async findOne(@Param('id') id: number): Promise<Trashcan | null> {
     const trashcanData = await this.trashcanService.findOne(+id);
 
     return trashcanData;
