@@ -29,32 +29,45 @@ export class Trashcan {
     example: '37.576004'
   })
   @Column("decimal", { name: "X", precision: 9, scale: 6 })
-  x: string;
+  x: number;
 
   @ApiProperty({
     description: '쓰레기통의 Y 좌표',
     example: '126.971748'
   })
   @Column("decimal", { name: "Y", precision: 9, scale: 6 })
-  y: string;
+  y: number;
 
   @ApiProperty({
     description: '쓰레기통 정보 생성 날짜'
   })
-  @CreateDateColumn({ type: "timestamp", name: "CREATED_AT" })
+  @CreateDateColumn({
+    type: "timestamp",
+    name: "CREATED_AT",
+    default: "CURRENT_TIMESTAMP"
+  })
   createdAt: Date;
 
   @ApiProperty({
     description: '쓰레기통 정보 최근 수정 날짜'
   })
-  @UpdateDateColumn({ type: "timestamp", name:"UPDATED_AT"})
+  @UpdateDateColumn({
+    type: "timestamp",
+    name:"UPDATED_AT",
+    default: "CURRENT_TIMESTAMP"
+  })
   updatedAt: Date;
 
   @ApiProperty({
     description: '쓰레기통 정보 삭제 날짜'
   })
-  @DeleteDateColumn({ type: "timestamp", name: "DELETED_AT"})
-  deletedAt: Date;
+  @DeleteDateColumn({
+    type: "timestamp",
+    name: "DELETED_AT",
+    nullable: true,
+    default: null
+  })
+  deletedAt: Date | null;
 
   @OneToMany(() => Cleaning, (cleaning) => cleaning.trashcan)
   cleanings: Cleaning[];
