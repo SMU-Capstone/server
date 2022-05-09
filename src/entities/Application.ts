@@ -37,7 +37,8 @@ export class Application {
   note: number;
 
   @ApiProperty({
-    description: '쓰레기통 신규 신청 날짜'
+    description: '쓰레기통 신규 신청 날짜',
+    example: '2022-05-08 18:02:58'
   })
   @CreateDateColumn({
     type: "timestamp",
@@ -47,7 +48,8 @@ export class Application {
   createdAt: Date;
 
   @ApiProperty({
-    description: '쓰레기통 신청 수정 날짜'
+    description: '쓰레기통 신청 수정 날짜',
+    example: '2022-05-08 18:02:58'
   })
   @UpdateDateColumn({
     type: "timestamp",

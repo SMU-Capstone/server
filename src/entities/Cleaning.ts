@@ -22,13 +22,15 @@ export class Cleaning {
   id: number;
 
   @ApiProperty({
-    description: '정수형으로 표기된 사용자의 청소 신청 사유'
+    description: '정수형으로 표기된 사용자의 청소 신청 사유',
+    example: '1'
   })
   @Column("int", { name: "NOTE" })
   note: number;
 
   @ApiProperty({
-    description: '쓰레기통 청소 신청 생성 날짜'
+    description: '쓰레기통 청소 신청 생성 날짜',
+    example: '2022-05-08 18:02:58'
   })
   @CreateDateColumn({
     type: "timestamp",
@@ -38,7 +40,8 @@ export class Cleaning {
   createdAt: Date;
 
   @ApiProperty({
-    description: '쓰레기통 청소 신청 수정 날짜'
+    description: '쓰레기통 청소 신청 수정 날짜',
+    example: '2022-05-08 18:02:58'
   })
   @UpdateDateColumn({
     type: "timestamp",
