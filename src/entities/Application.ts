@@ -37,20 +37,35 @@ export class Application {
   note: number;
 
   @ApiProperty({
-    description: '쓰레기통 신규 신청 날짜'
+    description: '쓰레기통 신규 신청 날짜',
+    example: '2022-05-08 18:02:58'
   })
-  @CreateDateColumn({ type: "timestamp", name: "CREATED_AT" })
+  @CreateDateColumn({
+    type: "timestamp",
+    name: "CREATED_AT",
+    default: "CURRENT_TIMESTAMP"
+  })
   createdAt: Date;
 
   @ApiProperty({
-    description: '쓰레기통 신청 수정 날짜'
+    description: '쓰레기통 신청 수정 날짜',
+    example: '2022-05-08 18:02:58'
   })
-  @UpdateDateColumn({ type: "timestamp", name:"UPDATED_AT"})
+  @UpdateDateColumn({
+    type: "timestamp",
+    name: "UPDATED_AT",
+    default: "CURRENT_TIMESTAMP"
+  })
   updatedAt: Date;
 
   @ApiProperty({
     description: '쓰레기통 신청 삭제 날짜'
   })
-  @DeleteDateColumn({ type: "timestamp", name: "DELETED_AT"})
-  deletedAt: Date;
+  @DeleteDateColumn({
+    type: "timestamp",
+    name: "DELETED_AT",
+    nullable: true,
+    default: null
+  })
+  deletedAt: Date | null;
 }
