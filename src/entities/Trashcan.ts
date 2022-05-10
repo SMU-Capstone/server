@@ -25,18 +25,18 @@ export class Trashcan {
   address: string;
 
   @ApiProperty({
-    description: '쓰레기통의 X 좌표',
+    description: '쓰레기통의 위도',
     example: '37.576004'
   })
-  @Column("decimal", { name: "X", precision: 9, scale: 6 })
-  x: number;
+  @Column("decimal", { name: "LATITUDE", precision: 9, scale: 6 })
+  latitude: number;
 
   @ApiProperty({
-    description: '쓰레기통의 Y 좌표',
+    description: '쓰레기통의 경도',
     example: '126.971748'
   })
-  @Column("decimal", { name: "Y", precision: 9, scale: 6 })
-  y: number;
+  @Column("decimal", { name: "LONGITUDE", precision: 9, scale: 6 })
+  longitude: number;
 
   @ApiProperty({
     description: '쓰레기통 정보 생성 날짜'

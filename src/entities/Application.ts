@@ -17,18 +17,18 @@ export class Application {
   type: number;
 
   @ApiProperty({
-    description: '현재 사용자의 X 좌표',
+    description: '현재 사용자의 위도',
     example: '37.576004'
   })
-  @Column("decimal", { name: "X", precision: 9, scale: 6 })
-  x: string;
+  @Column("decimal", { name: "LATITUDE", precision: 9, scale: 6 })
+  latitude: string;
 
   @ApiProperty({
-    description: '현재 사용자의 Y 좌표',
+    description: '현재 사용자의 경도',
     example: '126.971748'
   })
-  @Column("decimal", { name: "Y", precision: 9, scale: 6 })
-  y: string;
+  @Column("decimal", { name: "LONGITUDE", precision: 9, scale: 6 })
+  longitude: string;
 
   @ApiProperty({
     description: '정수형으로 표기된 사용자의 요청 사유'

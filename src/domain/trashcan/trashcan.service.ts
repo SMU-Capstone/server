@@ -17,9 +17,9 @@ export class TrashcanService {
     await this.trashcanRepository.save({
       address: createTrashcanDto.address,
       type: createTrashcanDto.type,
-      x: createTrashcanDto.x,
-      y: createTrashcanDto.y,
-      });
+      latitude: createTrashcanDto.latitude,
+      longitude: createTrashcanDto.longitude,
+    });
   }
 
   /* DB 내의 모든 쓰레기통을 조회한다. Pagination 적용 예정이긴 한데 해당 함수를 실제로 쓸 일이 있을지는 모르겠음 */
@@ -28,15 +28,15 @@ export class TrashcanService {
   }
 
   /* 현재 위치를 x, y (위도, 경도)의 매개변수로 받아 그 주변 1km 내의 모든 쓰레기통을 조회한다. */
-  async findRange(x: number, y: number): Promise<Trashcan[] | null> {
+  async findRange(lat: number, lon: number): Promise<Trashcan[] | null> {
     const qb =  await this.trashcanRepository
       .createQueryBuilder("Trashcan")
       .select("Trashcan.id")
       .addSelect("Trashcan.type")
       .addSelect("Trashcan.address")
-      .addSelect("Trashcan.x")
-      .addSelect("Trashcan.y") 
-      .addSelect(`6371 * ACOS(COS(RADIANS(${x}))*COS(RADIANS(X))*COS(RADIANS(Y)-RADIANS(${y}))+SIN(RADIANS(${x}))*SIN(RADIANS(X)))`, "distance")
+      .addSelect("Trashcan.latitude")
+      .addSelect("Trashcan.longitude") 
+      .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
       .having(`distance <= 1`)
       .getMany()
     

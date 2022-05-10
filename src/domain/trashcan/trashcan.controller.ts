@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { TrashcanService } from './trashcan.service';
 import { CreateTrashcanDto } from '../../dto/trashcan/create-trashcan.dto';
 import { UpdateTrashcanDto } from '../../dto/trashcan/update-trashcan.dto';
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Trashcan } from 'entities/Trashcan';
 
 @ApiTags('Trashcan')
@@ -14,21 +14,21 @@ export class TrashcanController {
   @ApiOperation({
     summary: '특정 좌표를 바탕으로 주위에 있는 쓰레기통의 정보들을 반환받는다.'
   })
-  @ApiParam({
-    name: 'x',
+  @ApiQuery({
+    name: 'lat',
     description: '사용자의 현재 위도를 쿼리스트링으로 받는다.',
     example: '37.576004',
     required: true,
   })
-  @ApiParam({
-    name: 'y',
+  @ApiQuery({
+    name: 'lon',
     description: '사용자의 현재 경도를 쿼리스트링으로 받는다.',
     example: '126.973261',
     required: true,
   })
   @Get('/range')
-  async findRange(@Query('x') x: number, @Query('y') y: number): Promise<Trashcan[] | null> {
-    const trashcanData =  await this.trashcanService.findRange(x,y);
+  async findRange(@Query('lat') lat: number, @Query('lon') lon: number): Promise<Trashcan[] | null> {
+    const trashcanData =  await this.trashcanService.findRange(lat,lon);
 
     return trashcanData;
   }
