@@ -4,6 +4,6 @@ import { Trashcan } from '../../entities/Trashcan'
 export class CreateTrashcanDto extends PickType(Trashcan, [
     'type',
     'address',
-    'x',
-    'y',
+    'latitude',
+    'longitude',
 ] as const) {}
