@@ -3,7 +3,7 @@ import { Application } from "../../entities/Application"
 
 export class CreateApplicationDto extends PickType(Application, [
     'type',
-    'x',
-    'y',
+    'latitude',
+    'longitude',
     'note',
 ] as const){}
