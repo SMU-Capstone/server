@@ -62,7 +62,8 @@ export class Cleaning {
   deletedAt: Date | null;
 
   @ApiProperty({
-    description: '청소를 신청한 쓰레기통의 ID'
+    description: '청소를 신청한 쓰레기통의 ID',
+    example: '1',
   })
   @Column("int", { name: "TRASHCAN_ID" })
   trashcanId: number;
