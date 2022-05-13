@@ -38,8 +38,8 @@ export class TrashcanController {
     summary: 'DB에 저장된 쓰레기통 중 특정 ID를 가진 쓰레기통의 정보를 가져온다.'
   })
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Trashcan | null> {
-    const trashcanData = await this.trashcanService.findOne(+id);
+  findOne(@Param('id') id: number): Promise<Trashcan | null> {
+    const trashcanData = this.trashcanService.findOne(+id);
 
     return trashcanData;
   }
@@ -52,7 +52,7 @@ export class TrashcanController {
     type: CreateTrashcanDto,
   })
   @Post()
-  create(@Body() createTrashcanDto: CreateTrashcanDto) {
+  create(@Body() createTrashcanDto: CreateTrashcanDto): Promise<void> {
     return this.trashcanService.create(createTrashcanDto);
   }
 
@@ -61,7 +61,7 @@ export class TrashcanController {
     summary: 'DB에 저장된 모든 쓰레기통의 정보를 가져온다.'
   })
   @Get()
-  findAll() {
+  findAll(): Promise<Trashcan[]> {
     return this.trashcanService.findAll();
   }
 
@@ -73,7 +73,7 @@ export class TrashcanController {
     type: UpdateTrashcanDto,
   })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTrashcanDto: UpdateTrashcanDto) {
+  update(@Param('id') id: string, @Body() updateTrashcanDto: UpdateTrashcanDto): Promise<void> {
     return this.trashcanService.update(+id, updateTrashcanDto);
   }
 
@@ -82,7 +82,7 @@ export class TrashcanController {
     summary: '특정 ID를 가진 쓰레기통의 정보를 삭제한다.'
   })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<void> {
     return this.trashcanService.remove(+id);
   }
 }
