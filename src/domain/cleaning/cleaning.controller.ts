@@ -26,7 +26,7 @@ export class CleaningController {
     summary: 'DB에 저장된 모든 청소 신청 정보를 반환한다.',
   })
   @Get()
-  findAll(): Promise<Cleaning[]> {
+  findAll(): Promise<Cleaning[] | null> {
     return this.cleaningService.findAll();
   }
 
@@ -40,7 +40,7 @@ export class CleaningController {
     required: true,
   })
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Cleaning> {
+  findOne(@Param('id') id: string): Promise<Cleaning | null> {
     return this.cleaningService.findOne(+id);
   }
 
