@@ -3,6 +3,7 @@ import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from '../../dto/application/create-application.dto';
 import { UpdateApplicationDto } from '../../dto/application/update-application.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Application } from 'entities/Application';
 
 @ApiTags('Application')
 @Controller('application')
