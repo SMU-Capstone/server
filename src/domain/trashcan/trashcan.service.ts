@@ -23,7 +23,7 @@ export class TrashcanService {
   }
 
   /* DB 내의 모든 쓰레기통을 조회한다. Pagination 적용 예정이긴 한데 해당 함수를 실제로 쓸 일이 있을지는 모르겠음 */
-  async findAll(): Promise<Trashcan[] | null> {
+  findAll(): Promise<Trashcan[] | null> {
     return this.trashcanRepository.find();
   }
 

@@ -21,12 +21,12 @@ export class CleaningService {
   }
 
   /* DB 내의 모든 청소 신청을 조회한다. */
-  async findAll() : Promise<Cleaning[] | null> {
+  findAll() : Promise<Cleaning[] | null> {
     return this.cleaningRepository.find();
   }
 
   /* DB에서 특정 ID를 가진 청소 신청을 조회한다. */
-  async findOne(id: number) : Promise<Cleaning | null> {
+  findOne(id: number) : Promise<Cleaning | null> {
     return this.cleaningRepository.findOneBy({id : id});
   }
 
