@@ -26,6 +26,12 @@ export class TrashcanController {
     example: '126.973261',
     required: true,
   })
+  @ApiQuery({
+    name: 'type',
+    description: '사용자가 검색하고자 하는 쓰레기통의 종류를 정수형의 쿼리스트링으로 받는다.',
+    example: '1',
+    required: false,
+  })
   @Get('/range')
   async findRange(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type?: number): Promise<Trashcan[] | null> {
     if (type == null) { 
