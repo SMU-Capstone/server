@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Trashcan } from 'entities/Trashcan';
 import { Repository } from 'typeorm';
@@ -28,19 +28,24 @@ export class TrashcanService {
   }
 
   /* 현재 위치를 x, y (위도, 경도)의 매개변수로 받아 그 주변 1km 내의 모든 쓰레기통을 조회한다. */
-  async findRange(lat: number, lon: number): Promise<Trashcan[] | null> {
+  async findRange(lat: number, lon: number, type? : number): Promise<Trashcan[] | null> {
     const qb =  await this.trashcanRepository
       .createQueryBuilder("Trashcan")
-      .select("Trashcan.id")
-      .addSelect("Trashcan.type")
-      .addSelect("Trashcan.address")
-      .addSelect("Trashcan.latitude")
-      .addSelect("Trashcan.longitude") 
+      .select([
+        'Trashcan.id',
+        'Trashcan.type',
+        'Trashcan.address',
+        'Trashcan.latitude',
+        'Trashcan.longitude'
+      ])
       .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
-      .having(`distance <= 1`)
-      .getMany()
+      .having('distance < 1');
+
+    if (type != null) {
+      qb.andWhere('Trashcan.type = :type', { type });
+    }
     
-    return qb;
+    return qb.getMany();
   }
 
   /* 어떤 쓰레기통을 클릭하여 정보를 확인하고자 할 경우, 쓰레기통의 ID를 바탕으로 DB에 해당 쓰레기통을 조회하는 Query를 날리게 된다 */

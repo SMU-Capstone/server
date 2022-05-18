@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { TrashcanService } from './trashcan.service';
 import { CreateTrashcanDto } from '../../dto/trashcan/create-trashcan.dto';
 import { UpdateTrashcanDto } from '../../dto/trashcan/update-trashcan.dto';
-import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Trashcan } from 'entities/Trashcan';
 
 @ApiTags('Trashcan')
@@ -27,10 +27,13 @@ export class TrashcanController {
     required: true,
   })
   @Get('/range')
-  async findRange(@Query('lat') lat: number, @Query('lon') lon: number): Promise<Trashcan[] | null> {
-    const trashcanData =  await this.trashcanService.findRange(lat,lon);
-
-    return trashcanData;
+  async findRange(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type?: number): Promise<Trashcan[] | null> {
+    if (type == null) { 
+      return await this.trashcanService.findRange(lat,lon);
+    }
+    else {
+      return await this.trashcanService.findRange(lat,lon,type);
+    }
   }
 
   /* 특정 쓰레기통 정보 가져오기 */
