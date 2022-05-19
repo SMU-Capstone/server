@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { TrashcanService } from './trashcan.service';
 import { CreateTrashcanDto } from '../../dto/trashcan/create-trashcan.dto';
 import { UpdateTrashcanDto } from '../../dto/trashcan/update-trashcan.dto';
-import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Trashcan } from 'entities/Trashcan';
 
 @ApiTags('Trashcan')
@@ -26,11 +26,20 @@ export class TrashcanController {
     example: '126.973261',
     required: true,
   })
+  @ApiQuery({
+    name: 'type',
+    description: '사용자가 검색하고자 하는 쓰레기통의 종류를 정수형의 쿼리스트링으로 받는다.',
+    example: '1',
+    required: false,
+  })
   @Get('/range')
-  async findRange(@Query('lat') lat: number, @Query('lon') lon: number): Promise<Trashcan[] | null> {
-    const trashcanData =  await this.trashcanService.findRange(lat,lon);
-
-    return trashcanData;
+  async findRange(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type?: number): Promise<Trashcan[] | null> {
+    if (type == null) { 
+      return await this.trashcanService.findRange(lat,lon);
+    }
+    else {
+      return await this.trashcanService.findRange(lat,lon,type);
+    }
   }
 
   /* 특정 쓰레기통 정보 가져오기 */
