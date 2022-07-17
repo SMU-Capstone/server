@@ -21,14 +21,14 @@ export class Application {
     example: '37.576004'
   })
   @Column("decimal", { name: "LATITUDE", precision: 9, scale: 6 })
-  latitude: string;
+  latitude: number;
 
   @ApiProperty({
     description: '현재 사용자의 경도',
     example: '126.971748'
   })
   @Column("decimal", { name: "LONGITUDE", precision: 9, scale: 6 })
-  longitude: string;
+  longitude: number;
 
   @ApiProperty({
     description: '정수형으로 표기된 사용자의 요청 사유'
