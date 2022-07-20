@@ -1,5 +1,5 @@
 import { PickType } from "@nestjs/swagger"
-import { IsNumber } from "class-validator";
+import { IsIn, IsLatitude, IsLongitude, IsNumber } from "class-validator";
 import { Application } from "../../entities/Application"
 
 export class CreateApplicationDto extends PickType(Application, [
@@ -9,14 +9,18 @@ export class CreateApplicationDto extends PickType(Application, [
     'note',
 ] as const){
     @IsNumber()
+    @IsIn([1,2])
     type: number;
 
-    @IsNumber() 
+    @IsNumber()
+    @IsLatitude()
     latitude: number;
 
     @IsNumber()
+    @IsLongitude()
     longitude: number;
 
     @IsNumber()
+    @IsIn([1,2,3])
     note: number;
 }

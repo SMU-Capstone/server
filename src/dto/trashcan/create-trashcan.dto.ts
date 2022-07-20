@@ -1,6 +1,6 @@
 import { PickType } from '@nestjs/swagger'
 import { Trashcan } from '../../entities/Trashcan'
-import { IsNumber, IsString } from 'class-validator';
+import { IsIn, IsLatitude, IsLongitude, IsNumber } from 'class-validator';
 export class CreateTrashcanDto extends PickType(Trashcan, [
     'type',
     'address',
@@ -8,14 +8,18 @@ export class CreateTrashcanDto extends PickType(Trashcan, [
     'longitude',
 ] as const) {
     @IsNumber()
+    @IsIn([1,2])
     type: number;
 
-    @IsString() 
+    @IsNumber()
+    @IsLatitude()
     latitude: number;
 
-    @IsString()
+    @IsNumber()
+    @IsLongitude()
     longitude: number;
 
     @IsNumber()
+    @IsIn([1,2,3])
     note: number;
 }
