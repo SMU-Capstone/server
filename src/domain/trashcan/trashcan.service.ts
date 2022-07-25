@@ -41,7 +41,7 @@ export class TrashcanService {
       .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
       .having('distance < 1');
 
-    if (type != null) {
+    if (type) {
       qb.andWhere('Trashcan.type = :type', { type });
     }
     
