@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { TrashcanService } from './trashcan.service';
 import { CreateTrashcanDto } from '../../dto/trashcan/create-trashcan.dto';
 import { UpdateTrashcanDto } from '../../dto/trashcan/update-trashcan.dto';
-import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Trashcan } from 'entities/Trashcan';
 
 @ApiTags('Trashcan')
@@ -42,17 +42,47 @@ export class TrashcanController {
     }
   }
 
+  @ApiOperation({
+    summary: 'DB에 저장된 쓰레기통 중 현 위치와 가장 가까운 쓰레기통 하나의 정보를 가져온다.'
+  })
+  @ApiQuery({
+    name: 'lat',
+    description: '사용자의 현재 위도를 쿼리스트링으로 받는다.',
+    example: '37.576004',
+    required: true,
+  })
+  @ApiQuery({
+    name: 'lon',
+    description: '사용자의 현재 경도를 쿼리스트링으로 받는다.',
+    example: '126.973261',
+    required: true,
+  })
+  @ApiQuery({
+    name: 'type',
+    description: '사용자가 검색하고자 하는 쓰레기통의 종류를 정수형의 쿼리스트링으로 받는다.',
+    example: '1',
+    required: true,
+  })
+  @Get('/nearest')
+  async findNearestOne(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type: number) {
+    return await this.trashcanService.findNearestOne(lat, lon, type);
+  }
+
   /* 특정 쓰레기통 정보 가져오기 */
   @ApiOperation({
     summary: 'DB에 저장된 쓰레기통 중 특정 ID를 가진 쓰레기통의 정보를 가져온다.'
   })
+  @ApiQuery({
+    name: 'id',
+    description: '사용자가 검색하고자 하는 쓰레기통의 ID를 정수형의 쿼리스트링으로 받는다.',
+    example: '190',
+    required: true,
+  })
   @Get(':id')
   findOne(@Param('id') id: number): Promise<Trashcan | null> {
-    const trashcanData = this.trashcanService.findOne(+id);
-
-    return trashcanData;
+    return this.trashcanService.findOne(+id);
   }
-
+ 
   /* 쓰레기통 정보 생성 */
   @ApiOperation({
     summary: '새 쓰레기통을 생성한다.'
