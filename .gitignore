@@ -40,3 +40,4 @@ lerna-debug.log*
 
 # package
 package-lock.json
+ormconfig.json
