@@ -50,10 +50,37 @@ export class TrashcanService {
 
   /* 어떤 쓰레기통을 클릭하여 정보를 확인하고자 할 경우, 쓰레기통의 ID를 바탕으로 DB에 해당 쓰레기통을 조회하는 Query를 날리게 된다 */
   /* 추후 ID 기반이 아닌 좌표를 기반으로도 검색할 수 있도록 수정할 예정 */
-  async findOne(id: number) : Promise<Trashcan | null> {
-    const result: Trashcan = await this.trashcanRepository.findOneBy({ id : id });
+  async findOne(id : number) : Promise<Trashcan | null> {
+    const qb = await this.trashcanRepository
+      .createQueryBuilder("Trashcan")
+      .select([
+        'Trashcan.id',
+        'Trashcan.type',
+        'Trashcan.address',
+        'Trashcan.latitude',
+        'Trashcan.longitude'
+      ])
+      .andWhere('Trashcan.id = :id', { id })
 
-    return result;
+    return qb.getOne();
+  }
+
+  async findNearestOne(lat: number, lon: number, type: number) : Promise<Trashcan | null> {
+    const qb = await this.trashcanRepository
+      .createQueryBuilder("Trashcan")
+      .select([
+        'Trashcan.id',
+        'Trashcan.type',
+        'Trashcan.address',
+        'Trashcan.latitude',
+        'Trashcan.longitude'
+      ])
+      .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
+      .where('Trashcan.type = :type', { type })
+      .having('distance < 1')
+      .addOrderBy('distance', 'ASC')
+
+    return qb.getOne();
   }
   
   // UPDATE

@@ -42,6 +42,14 @@ export class TrashcanController {
     }
   }
 
+  @ApiOperation({
+    summary: 'DB에 저장된 쓰레기통 중 현 위치와 가장 가까운 쓰레기통의 정보를 가져온다.'
+  })
+  @Get('/nearest')
+  async findNearestOne(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type: number) {
+    return await this.trashcanService.findNearestOne(lat, lon, type);
+  }
+
   /* 특정 쓰레기통 정보 가져오기 */
   @ApiOperation({
     summary: 'DB에 저장된 쓰레기통 중 특정 ID를 가진 쓰레기통의 정보를 가져온다.'
@@ -52,7 +60,7 @@ export class TrashcanController {
 
     return trashcanData;
   }
-
+ 
   /* 쓰레기통 정보 생성 */
   @ApiOperation({
     summary: '새 쓰레기통을 생성한다.'
