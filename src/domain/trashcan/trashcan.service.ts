@@ -29,7 +29,7 @@ export class TrashcanService {
   }
 
   /* 현재 위치를 x, y (위도, 경도)의 매개변수로 받아 그 주변 1km 내의 모든 쓰레기통을 조회한다. */
-  async findRange(lat: number, lon: number, type? : number): Promise<Trashcan[] | null> {
+  async findAllByRange(lat: number, lon: number, type? : number): Promise<Trashcan[] | null> {
     if (type) {
       return this.trashcanRepository.findAllByRange(lat, lon, type);
     }
@@ -54,7 +54,7 @@ export class TrashcanService {
     return qb.getOne();
   }
 
-  async findNearestOne(lat: number, lon: number, type: number) : Promise<Trashcan | null> {
+  async findOneByRange(lat: number, lon: number, type: number) : Promise<Trashcan | null> {
     return this.trashcanRepository.findOneByRange(lat, lon, type);
   }
   
