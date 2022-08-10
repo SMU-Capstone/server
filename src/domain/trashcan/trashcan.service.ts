@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Trashcan } from 'entities/Trashcan';
-import { Repository } from 'typeorm';
 import { CreateTrashcanDto } from '../../dto/trashcan/create-trashcan.dto';
 import { UpdateTrashcanDto } from '../../dto/trashcan/update-trashcan.dto';
+import { TrashcanRepository } from './trashcan.repository';
+
 
 @Injectable()
 export class TrashcanService {
   constructor(
-    @InjectRepository(Trashcan)
-    private readonly trashcanRepository: Repository<Trashcan>,
+    @InjectRepository(TrashcanRepository)
+    private readonly trashcanRepository: TrashcanRepository,
   ) {}
 
   /* 새 쓰레기통을 DB 내에 생성한다.*/
@@ -28,24 +29,12 @@ export class TrashcanService {
   }
 
   /* 현재 위치를 x, y (위도, 경도)의 매개변수로 받아 그 주변 1km 내의 모든 쓰레기통을 조회한다. */
-  async findRange(lat: number, lon: number, type? : number): Promise<Trashcan[] | null> {
-    const qb =  await this.trashcanRepository
-      .createQueryBuilder("Trashcan")
-      .select([
-        'Trashcan.id',
-        'Trashcan.type',
-        'Trashcan.address',
-        'Trashcan.latitude',
-        'Trashcan.longitude'
-      ])
-      .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
-      .having('distance < 1');
-
+  async findAllByRange(lat: number, lon: number, type? : number): Promise<Trashcan[] | null> {
     if (type) {
-      qb.andWhere('Trashcan.type = :type', { type });
+      return this.trashcanRepository.findAllByRange(lat, lon, type);
     }
-    
-    return qb.getMany();
+
+    return this.trashcanRepository.findAllByRange(lat,lon);    
   }
 
   /* 어떤 쓰레기통을 클릭하여 정보를 확인하고자 할 경우, 쓰레기통의 ID를 바탕으로 DB에 해당 쓰레기통을 조회하는 Query를 날리게 된다 */
@@ -65,22 +54,8 @@ export class TrashcanService {
     return qb.getOne();
   }
 
-  async findNearestOne(lat: number, lon: number, type: number) : Promise<Trashcan | null> {
-    const qb = await this.trashcanRepository
-      .createQueryBuilder("Trashcan")
-      .select([
-        'Trashcan.id',
-        'Trashcan.type',
-        'Trashcan.address',
-        'Trashcan.latitude',
-        'Trashcan.longitude'
-      ])
-      .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
-      .where('Trashcan.type = :type', { type })
-      .having('distance < 1')
-      .addOrderBy('distance', 'ASC')
-
-    return qb.getOne();
+  async findOneByRange(lat: number, lon: number, type: number) : Promise<Trashcan | null> {
+    return this.trashcanRepository.findOneByRange(lat, lon, type);
   }
   
   // UPDATE

@@ -27,7 +27,7 @@ export class CleaningService {
 
   /* DB에서 특정 ID를 가진 청소 신청을 조회한다. */
   findOne(id: number) : Promise<Cleaning | null> {
-    return this.cleaningRepository.findOneBy({id : id});
+    return this.cleaningRepository.findOne(id);
   }
 
   // UPDATE

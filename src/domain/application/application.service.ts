@@ -29,7 +29,7 @@ export class ApplicationService {
   
   /* DB에서 특정 ID의 쓰레기통 추가신청을 조회한다. */
   async findOne(id: number) : Promise<Application | null> {
-    return this.applicationRepository.findOneBy({id : id});
+    return this.applicationRepository.findOne(id);
   }
 
   //update

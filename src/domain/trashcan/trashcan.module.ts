@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { TrashcanService } from './trashcan.service';
 import { TrashcanController } from './trashcan.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Trashcan } from 'entities/Trashcan';
+import { TrashcanRepository } from './trashcan.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Trashcan])],
+  imports: [TypeOrmModule.forFeature([TrashcanRepository])],
   controllers: [TrashcanController],
-  providers: [TrashcanService]
+  providers: [TrashcanService],
 })
 export class TrashcanModule {}

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { TrashcanService } from './trashcan.service';
 import { CreateTrashcanDto } from '../../dto/trashcan/create-trashcan.dto';
 import { UpdateTrashcanDto } from '../../dto/trashcan/update-trashcan.dto';
-import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Trashcan } from 'entities/Trashcan';
 
 @ApiTags('Trashcan')
@@ -33,12 +33,12 @@ export class TrashcanController {
     required: false,
   })
   @Get('/range')
-  async findRange(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type?: number): Promise<Trashcan[] | null> {
+  async findAllByRange(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type?: number): Promise<Trashcan[] | null> {
     if (type == null) { 
-      return await this.trashcanService.findRange(lat,lon);
+      return await this.trashcanService.findAllByRange(lat,lon);
     }
     else {
-      return await this.trashcanService.findRange(lat,lon,type);
+      return await this.trashcanService.findAllByRange(lat,lon,type);
     }
   }
 
@@ -64,8 +64,8 @@ export class TrashcanController {
     required: true,
   })
   @Get('/nearest')
-  async findNearestOne(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type: number) {
-    return await this.trashcanService.findNearestOne(lat, lon, type);
+  async findOneByRange(@Query('lat') lat: number, @Query('lon') lon: number, @Query('type') type: number) {
+    return await this.trashcanService.findOneByRange(lat, lon, type);
   }
 
   /* 특정 쓰레기통 정보 가져오기 */
