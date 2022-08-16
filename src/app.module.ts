@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ApplicationModule } from './domain/application/application.module';
 import { CleaningModule } from './domain/cleaning/cleaning.module';
 import { TrashcanModule } from './domain/trashcan/trashcan.module';
+import { TrashcanStatusModule } from './domain/trashcan-status/trashcan-status.module';
 
 import { ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
@@ -33,7 +34,8 @@ dotenv.config();
   }),
     ApplicationModule,
     CleaningModule,
-    TrashcanModule],
+    TrashcanModule,
+    TrashcanStatusModule],
   controllers: [AppController],
   providers: [
     AppService, {
