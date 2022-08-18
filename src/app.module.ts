@@ -15,6 +15,7 @@ import { Cleaning } from 'entities/Cleaning';
 import { Trashcan } from 'entities/Trashcan';
 
 import * as dotenv from 'dotenv';
+import { TrashcanStatus } from 'entities/TrashcanStatus';
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ dotenv.config();
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [Application, Cleaning, Trashcan],
+    entities: [Application, Cleaning, Trashcan, TrashcanStatus],
     dateStrings: true,
     synchronize: false,
     logging: true,
