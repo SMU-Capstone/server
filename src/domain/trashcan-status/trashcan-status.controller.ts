@@ -21,7 +21,21 @@ export class TrashcanStatusController {
     }
 
     @ApiOperation({
-        summary: '특정 ID를 가진 쓰레기통 상태 정보를 반환한다.',
+        summary: '특정 ID를 가진 쓰레기통의 상태 정보를 반환한다.',
+    })
+    @ApiParam({
+        name: 'id',
+        description: '쓰레기통 상태 정보의 ID',
+        example: '1',
+        required: true,
+    })
+    @Get('trashcan-id/:id')
+    findByTrashcanId(@Param('id') id: number) {
+        return this.trashcanStatusService.findByTrashcanId(id);
+    }
+
+    @ApiOperation({
+        summary: '특정 ID를 가진 상태 정보를 반환한다.',
     })
     @ApiParam({
         name: 'id',
@@ -41,8 +55,21 @@ export class TrashcanStatusController {
     findAll() {
         return this.trashcanStatusService.findAll();
     }
-
     
+    @ApiOperation({
+        summary: '특정 쓰레기통의 모든 상태 정보를 삭제한다.',
+    })
+    @ApiParam({
+        name: 'id',
+        description: '상태 정보를 삭제하고자 하는 쓰레기통의 ID',
+        example: '1',
+        required: true
+    })
+    @Delete('trashcan-id/:id')
+    removeByTrashcanId(@Param('id') id: number) {
+        return this.trashcanStatusService.removeByTrashcanId(id);
+    }
+
     @ApiOperation({
         summary: '특정 ID를 가진 쓰레기통 상태 정보를 삭제한다.',
     })

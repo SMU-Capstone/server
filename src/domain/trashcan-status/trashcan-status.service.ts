@@ -16,10 +16,10 @@ export class TrashcanStatusService {
         await this.trashcanStatusRepository.save({
             isFull: createTrashcanStatusDto.isFull,
             trashcanId: createTrashcanStatusDto.trashcanId,
-        });
+        }); 
     }
 
-    /* DB에서 특정 ID를 가진 상태 정보를 조회한다. */
+    /* DB에서 특정 ID를 가진 상태 정보를 조회한다. */ 
     findOne(id: number): Promise<TrashcanStatus> {
         return this.trashcanStatusRepository.findOne(id);
     }
@@ -28,11 +28,41 @@ export class TrashcanStatusService {
     findAll(): Promise<TrashcanStatus[]> {
         return this.trashcanStatusRepository.find();
     }
+    
+    /* 특정 쓰레기통 ID를 가진 상태 정보를 조회한다. */
+    async findByTrashcanId(id: number): Promise<TrashcanStatus[]> {
+        const qb = this.trashcanStatusRepository
+                    .createQueryBuilder("TrashcanStatus")
+                    .select([
+                        'TrashcanStatus.id',
+                        'TrashcanStatus.isFull',
+                    ])
+                    .andWhere('TrashcanStatus.trashcanId = :id', { id });
+
+        return qb.getMany();
+    }
 
     // SOFT DELETE
     async remove(id: number): Promise<void> {
         await this.trashcanStatusRepository.softDelete(
             id
         );
+    }
+
+    /* 특정 쓰레기통 ID를 가진 상태 정보를 삭제한다. */
+    async removeByTrashcanId(id: number): Promise<void> {
+        const qb = await this.trashcanStatusRepository
+                    .createQueryBuilder("TrashcanStatus")
+                    .select([
+                        'TrashcanStatus.id'
+                    ])
+                    .andWhere('TrashcanStatus.trashcanId = :id', { id })
+                    .getMany();
+        
+        qb.forEach(async (trashcanStatus) => {
+            await this.trashcanStatusRepository.softDelete(
+                trashcanStatus.id
+            );
+        });
     }
 }
