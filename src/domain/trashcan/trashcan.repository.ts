@@ -1,4 +1,5 @@
 import { Trashcan } from "entities/Trashcan";
+import { TrashcanStatus } from "entities/TrashcanStatus";
 import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(Trashcan)
@@ -12,6 +13,8 @@ export class TrashcanRepository extends Repository<Trashcan> {
                 'Trashcan.latitude',
                 'Trashcan.longitude'
             ])
+            .leftJoin('Trashcan.trashcanStatuses','status')
+            .loadRelationCountAndMap('Trashcan.statusCount', 'Trashcan.trashcanStatuses')
             .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
             .having('distance < 1')
             .addOrderBy('distance', 'ASC');
