@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ApplicationModule } from './domain/application/application.module';
 import { CleaningModule } from './domain/cleaning/cleaning.module';
 import { TrashcanModule } from './domain/trashcan/trashcan.module';
+import { TrashcanStatusModule } from './domain/trashcan-status/trashcan-status.module';
 
 import { ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
@@ -14,6 +15,7 @@ import { Cleaning } from 'entities/Cleaning';
 import { Trashcan } from 'entities/Trashcan';
 
 import * as dotenv from 'dotenv';
+import { TrashcanStatus } from 'entities/TrashcanStatus';
 
 dotenv.config();
 
@@ -25,7 +27,7 @@ dotenv.config();
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [Application, Cleaning, Trashcan],
+    entities: [Application, Cleaning, Trashcan, TrashcanStatus],
     dateStrings: true,
     synchronize: false,
     logging: true,
@@ -33,7 +35,8 @@ dotenv.config();
   }),
     ApplicationModule,
     CleaningModule,
-    TrashcanModule],
+    TrashcanModule,
+    TrashcanStatusModule],
   controllers: [AppController],
   providers: [
     AppService, {
