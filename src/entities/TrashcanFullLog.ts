@@ -12,8 +12,8 @@ import {
 import { Trashcan } from "./Trashcan";
 
 @Index("fk_TrashcanStatus_Trashcan_idx", ["trashcanId"], {})
-@Entity("TRASHCAN_STATUS", { schema: "mydb"})
-export class TrashcanStatus {
+@Entity("TRASHCAN_FULL_LOG", { schema: "mydb"})
+export class TrashcanFullLog {
     @PrimaryGeneratedColumn({ type: "int", name: "ID" })
     id: number;
 
@@ -32,9 +32,6 @@ export class TrashcanStatus {
     })
     deletedAt: Date | null;
 
-    @Column("tinyint", { name: "IS_FULL"})
-    isFull: number;
-
     @ApiProperty({
         description: '꽉 찬 쓰레기통의 ID',
         example: '1',
@@ -42,7 +39,7 @@ export class TrashcanStatus {
       @Column("int", { name: "TRASHCAN_ID" })
       trashcanId: number;
     
-      @ManyToOne(() => Trashcan, (trashcan) => trashcan.trashcanStatuses, {
+      @ManyToOne(() => Trashcan, (trashcan) => trashcan.trashcanFullLogs, {
         onDelete: "CASCADE",
         onUpdate: "NO ACTION",
       })

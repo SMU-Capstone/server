@@ -1,21 +1,21 @@
 import { Trashcan } from "entities/Trashcan";
-import { TrashcanStatus } from "entities/TrashcanStatus";
+import { TrashcanFullLog } from "entities/TrashcanFullLog";
 import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(Trashcan)
 export class TrashcanRepository extends Repository<Trashcan> {
     async findAllByRange(lat: number, lon: number, type?: number) {
-        const statusCountQuery = this.createQueryBuilder("TrashcanStatus")
+        const logCountQuery = this.createQueryBuilder("TrashcanFullLog")
             .subQuery()
             .select([
-                'COUNT (*) AS statusCount',
-                'status.trashcanId AS trashcanId' 
+                'COUNT (*) AS logCount',
+                'log.trashcanId AS trashcanId' 
             ])
-            .from(TrashcanStatus, 'status')
+            .from(TrashcanFullLog, 'log')
             .getQuery()
 
         const qb = this.createQueryBuilder("Trashcan")
-            .leftJoin('Trashcan.trashcanStatuses', 'status')
+            .leftJoin('Trashcan.trashcanFullLogs', 'log')
             .select([
                 'Trashcan.id AS id',
                 'Trashcan.type AS type',
@@ -24,10 +24,8 @@ export class TrashcanRepository extends Repository<Trashcan> {
                 'Trashcan.longitude AS longitude'
             ])
             .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
-            // .leftJoinAndSelect('Trashcan.trashcanStatuses','status')
-            // .loadRelationCountAndMap('Trashcan.statusCount', 'Trashcan.trashcanStatuses')
-            .leftJoin(statusCountQuery, 'status', 'status.trashcanId = Trashcan.id')
-            .addSelect('status.statusCount AS count')
+            .leftJoin(logCountQuery, 'log', 'log.trashcanId = Trashcan.id')
+            .addSelect('log.logCount AS count')
             .having('distance < 1')
             .addOrderBy('distance', 'ASC');
                 

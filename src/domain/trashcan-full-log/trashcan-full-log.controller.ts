@@ -1,23 +1,23 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
-import { CreateTrashcanStatusDto } from 'dto/trashcan-status/create-trashcan-status.dto';
-import { TrashcanStatusService } from './trashcan-status.service';
+import { CreateTrashcanFullLogDto } from 'dto/trashcan-full-log/create-trashcan-full-log.dto';
+import { TrashcanFullLogService } from './trashcan-full-log.service';
 
-@ApiTags('Trashcan-Status')
-@Controller('trashcan-status')
-export class TrashcanStatusController {
-    constructor(private readonly trashcanStatusService: TrashcanStatusService) {}
+@ApiTags('Trashcan-Full-Log')
+@Controller('trashcan-full-log')
+export class TrashcanFullLogController {
+    constructor(private readonly trashcanFullLogService: TrashcanFullLogService) {}
 
     @ApiOperation({
         summary: '쓰레기통 상태 정보를 DB에 저장한다.',
     })
     @ApiBody({
-        type: CreateTrashcanStatusDto,
+        type: CreateTrashcanFullLogDto,
         description: '쓰레기통 상태 정보'
     })
     @Post()
-    create(@Body() createTrashcanStatusDto: CreateTrashcanStatusDto) {
-        return this.trashcanStatusService.create(createTrashcanStatusDto);    
+    create(@Body() createTrashcanFullLogDto: CreateTrashcanFullLogDto) {
+        return this.trashcanFullLogService.create(createTrashcanFullLogDto);    
     }
 
     @ApiOperation({
@@ -31,7 +31,7 @@ export class TrashcanStatusController {
     })
     @Get('trashcan-id/:id')
     findByTrashcanId(@Param('id') id: number) {
-        return this.trashcanStatusService.findByTrashcanId(id);
+        return this.trashcanFullLogService.findByTrashcanId(id);
     }
 
     @ApiOperation({
@@ -45,7 +45,7 @@ export class TrashcanStatusController {
     })
     @Get(':id')
     findOne(@Param('id') id: number) {
-        return this.trashcanStatusService.findOne(id);
+        return this.trashcanFullLogService.findOne(id);
     }
 
     @ApiOperation({
@@ -53,7 +53,7 @@ export class TrashcanStatusController {
     })
     @Get()
     findAll() {
-        return this.trashcanStatusService.findAll();
+        return this.trashcanFullLogService.findAll();
     }
     
     @ApiOperation({
@@ -67,7 +67,7 @@ export class TrashcanStatusController {
     })
     @Delete('trashcan-id/:id')
     removeByTrashcanId(@Param('id') id: number) {
-        return this.trashcanStatusService.removeByTrashcanId(id);
+        return this.trashcanFullLogService.removeByTrashcanId(id);
     }
 
     @ApiOperation({
@@ -81,6 +81,6 @@ export class TrashcanStatusController {
     })
     @Delete(':id')
     remove(@Param('id') id: number) {
-        return this.trashcanStatusService.remove(id);
+        return this.trashcanFullLogService.remove(id);
     }
 }

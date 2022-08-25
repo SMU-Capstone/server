@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn,Entity, OneToMany } from "typeorm";
 import { Cleaning } from "./Cleaning";
-import { TrashcanStatus } from "./TrashcanStatus";
+import { TrashcanFullLog } from "./TrashcanFullLog";
 
 @Entity("TRASHCAN", { schema: "mydb" })
 export class Trashcan {
@@ -73,6 +73,6 @@ export class Trashcan {
   @OneToMany(() => Cleaning, (cleaning) => cleaning.trashcan)
   cleanings: Cleaning[];
 
-  @OneToMany(() => TrashcanStatus, (trashcanStatus) => trashcanStatus.trashcan)
-  trashcanStatuses: TrashcanStatus[];
+  @OneToMany(() => TrashcanFullLog, (trashcanFullLog) => trashcanFullLog.trashcan)
+  trashcanFullLogs: TrashcanFullLog[];
 }
