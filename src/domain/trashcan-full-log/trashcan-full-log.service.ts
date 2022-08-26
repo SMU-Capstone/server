@@ -33,8 +33,7 @@ export class TrashcanFullLogService {
         const qb = this.trashcanFullLogRepository
                     .createQueryBuilder("TrashcanFullLog")
                     .select([
-                        'TrashcanFullLog.id',
-                        'TrashcanFullLog.isFull',
+                        'TrashcanFullLog.id'
                     ])
                     .andWhere('TrashcanFullLog.trashcanId = :id', { id });
 
