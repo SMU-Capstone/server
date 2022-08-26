@@ -29,12 +29,26 @@ export class TrashcanService {
   }
 
   /* 현재 위치를 x, y (위도, 경도)의 매개변수로 받아 그 주변 1km 내의 모든 쓰레기통을 조회한다. */
-  async findAllByRange(lat: number, lon: number, type? : number): Promise<Trashcan[] | null> {
+  async findAllByRange(lat: number, lon: number, type? : number): Promise<any> {
+    let query;
+
     if (type) {
-      return this.trashcanRepository.findAllByRange(lat, lon, type);
+      query = await this.trashcanRepository.findAllByRange(lat, lon, type);
+    }
+    else {
+      query = await this.trashcanRepository.findAllByRange(lat, lon);
     }
 
-    return this.trashcanRepository.findAllByRange(lat,lon);    
+    return query.map(
+      trashcan => ({
+       id: trashcan.id,
+       type: trashcan.type,
+       address: trashcan.address,
+       latitude: trashcan.latitude,
+       longitude: trashcan.longitude,
+       logCount: Number(trashcan.count)
+      })
+     );
   }
 
   /* 어떤 쓰레기통을 클릭하여 정보를 확인하고자 할 경우, 쓰레기통의 ID를 바탕으로 DB에 해당 쓰레기통을 조회하는 Query를 날리게 된다 */
