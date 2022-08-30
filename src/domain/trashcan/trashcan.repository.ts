@@ -37,18 +37,30 @@ export class TrashcanRepository extends Repository<Trashcan> {
     }
 
     async findOneByRange(lat: number, lon: number, type: number) {
-        return await this.createQueryBuilder("Trashcan")
+        const logCountQuery = this.createQueryBuilder("TrashcanFullLog")
+            .subQuery()
             .select([
-                'Trashcan.id',
-                'Trashcan.type',
-                'Trashcan.address',
-                'Trashcan.latitude',
-                'Trashcan.longitude'
+                'COUNT (*) AS logCount',
+                'log.trashcanId AS trashcanId' 
+            ])
+            .from(TrashcanFullLog, 'log')
+            .getQuery()
+
+        return await this.createQueryBuilder("Trashcan")
+            .leftJoin('Trashcan.trashcanFullLogs', 'log')
+            .select([
+                'Trashcan.id AS id',
+                'Trashcan.type AS type',
+                'Trashcan.address AS address',
+                'Trashcan.latitude AS latitude',
+                'Trashcan.longitude AS longitude'
             ])
             .addSelect(`6371 * ACOS(COS(RADIANS(${lat}))*COS(RADIANS(LATITUDE))*COS(RADIANS(LONGITUDE)-RADIANS(${lon}))+SIN(RADIANS(${lat}))*SIN(RADIANS(LATITUDE)))`, "distance")
+            .leftJoin(logCountQuery, 'log', 'log.trashcanId = Trashcan.id')
+            .addSelect('log.logCount AS count')
             .where('Trashcan.type = :type', { type })
             .having('distance < 1')
             .addOrderBy('distance', 'ASC')
-            .getOne();
+            .getRawOne();
     }
 }
