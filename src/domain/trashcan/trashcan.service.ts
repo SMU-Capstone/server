@@ -68,8 +68,18 @@ export class TrashcanService {
     return qb.getOne();
   }
 
-  async findOneByRange(lat: number, lon: number, type: number) : Promise<Trashcan | null> {
-    return this.trashcanRepository.findOneByRange(lat, lon, type);
+  async findOneByRange(lat: number, lon: number, type: number) : Promise<any> {
+    const query = await this.trashcanRepository.findOneByRange(lat, lon, type);
+    const trashcan = {
+      id: query.id,
+      type: query.type,
+      address: query.address,
+      latitude: query.latitude,
+      longitude: query.longitude,
+      logCount: Number(query.count)  
+    }
+
+    return trashcan;
   }
   
   // UPDATE
